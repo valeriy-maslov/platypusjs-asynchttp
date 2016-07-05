@@ -12,12 +12,10 @@ define(['invoke', 'forms', 'ui'], function (Invoke, Forms, Ui, ModuleName) {
         };
         
         form.btnRun.onActionPerformed = function(event) {
-            require(['logger','./no-auth/cases'
-//                ,'./local-auth/cases'
-//                ,'./remote-auth/cases'
-            ], function(Log, NoAuthCases, LocalAuthCases, RemoteAuthCases) {
+            require(['logger','./basic/cases'
+            ], function(Log, BasicCases) {
                 var tests = [];
-                Array.prototype.push.apply(tests,NoAuthCases);
+                Array.prototype.push.apply(tests,BasicCases);
 //                Array.prototype.push.apply(tests,LocalAuthCases);
 //                Array.prototype.push.apply(tests,RemoteAuthCases);
                 form.pbRun.minimum = 0;
