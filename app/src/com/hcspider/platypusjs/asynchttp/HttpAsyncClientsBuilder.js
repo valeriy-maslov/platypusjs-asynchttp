@@ -1,12 +1,9 @@
 /**
  * 
  */
-define([],function() {
+define(['./HttpClient'],function(HttpClient) {
     var HttpAsyncClients = Java.type('org.apache.http.impl.nio.client.HttpAsyncClients');
-    
-    /**
-     * @class
-     */
+
     var module = {};
     
     function custom() {
@@ -14,7 +11,8 @@ define([],function() {
     }
     
     function createDefault() {
-        return HttpAsyncClients.createDefault();
+        var client = HttpAsyncClients.createDefault();
+        return new HttpClient(client);
     }
     
     function createSystem() {

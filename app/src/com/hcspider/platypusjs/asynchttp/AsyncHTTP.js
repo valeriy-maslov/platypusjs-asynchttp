@@ -2,19 +2,16 @@
  * 
  */
 define(['logger'
-    ,'./HttpAsyncClientsBuider'
-    ,'./HttpRequest'
-    ,'./HttpResponse'
-],function(Log,ClientsBuilder,Request,HttpResponse) {
+    ,'./HttpAsyncClientsBuilder'
+    ,'./HttpRequestBuilder'
+],function(Log,ClientsBuilder,RequestBuilder) {
     var module = {};
     
     var client;
     
-    function get(URI,options) {
-        if (!client) {
-            client = ClientsBuilder.createDefault();
-            client.start();
-        }
+    function get(URI) {
+        var request = RequestBuilder.prepareGetRequest(URI);
+        return request;
 //        return {
 //            execute: function(onSuccess,onFailure) {
 //                try {
@@ -30,6 +27,14 @@ define(['logger'
 //        };
     }
     
+    function execute(request,onSuccess,onFailure) {
+        if (!client) {
+            client = ClientsBuilder.createDefault();
+            client.start();
+        }
+        client.execute(request,onSuccess,onFailure);
+    }
+    
     function close() {
         if (!client) {
             client.close();
@@ -38,6 +43,7 @@ define(['logger'
     
     module.get = get;
     module.close = close;
+    module.execute = execute;
     
     return module;
 });
