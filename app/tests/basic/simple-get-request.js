@@ -1,5 +1,5 @@
 define(['invoke','logger','../../src/com/hcspider/platypusjs/asynchttp/AsyncHTTP'],function(Invoke,Log,HttpClient) {
-    function OwnModuleCallTest() {
+    function SimpleGetRequest() {
         this.execute = function(onSuccess) {
             var request = HttpClient.get('http://localhost:8084/microservices/stub/application?__moduleName=StatelessTg&__methodName=numberTwo');
             HttpClient.execute(request,function(value) {
@@ -19,5 +19,5 @@ define(['invoke','logger','../../src/com/hcspider/platypusjs/asynchttp/AsyncHTTP
             });
         };
     }
-    return OwnModuleCallTest;
+    return SimpleGetRequest;
 });

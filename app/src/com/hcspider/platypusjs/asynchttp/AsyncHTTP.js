@@ -12,19 +12,16 @@ define(['logger'
     function get(URI) {
         var request = RequestBuilder.prepareGetRequest(URI);
         return request;
-//        return {
-//            execute: function(onSuccess,onFailure) {
-//                try {
-//                    client.execute(request,Async.wrapCallbacks(function(result) {
-//                        var entity = result.getEntity();
-//                        var content = EntityUtils.toString(entity);
-//                        onSuccess(content);
-//                    },onFailure));
-//                } catch (e) {
-//                    Log.severe(e);
-//                }
-//            }
-//        };
+    }
+    
+    function options(URI) {
+        var request = RequestBuilder.prepareOptionsRequest(URI);
+        return request;
+    }
+    
+    function head(URI) {
+        var request = RequestBuilder.prepareHeadRequest(URI);
+        return request;
     }
     
     function execute(request,onSuccess,onFailure) {
@@ -42,6 +39,8 @@ define(['logger'
     }
     
     module.get = get;
+    module.options = options;
+    module.head = head;
     module.close = close;
     module.execute = execute;
     

@@ -23,6 +23,10 @@ define([],function() {
     
     function instantiateByMethod(method,URI) {
         switch(method.toUpperCase()) {
+            case 'OPTIONS':
+                return new HttpOptions(URI);
+            case 'HEAD':
+                return new HttpHead(URI);
             case 'GET':
                 return new HttpGet(URI);
             default:

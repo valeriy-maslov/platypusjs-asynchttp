@@ -18,7 +18,19 @@ define(['./HttpRequest','./HttpResponse'],function(HttpRequest) {
         return request;
     }
     
+    function prepareOptionsRequest(URI) {
+        var request = new HttpRequest('OPTIONS',URI);
+        return request;
+    }
+    
+    function prepareHeadRequest(URI) {
+        var request = new HttpRequest('HEAD',URI);
+        return request;
+    }
+    
     module.prepareGetRequest = prepareGetRequest;
+    module.prepareOptionsRequest = prepareOptionsRequest;
+    module.prepareHeadRequest = prepareHeadRequest;
     
     return module;
 });
