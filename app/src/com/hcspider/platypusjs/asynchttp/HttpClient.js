@@ -66,9 +66,6 @@ define(['logger'
             this.instance.execute(aRequest.instance,Async.wrapCallbacks(function(result) {
                 var response = new HttpResponse(result);
                 aOnSuccess(response);
-//                var entity = result.getEntity();
-//                var content = EntityUtils.toString(entity);
-//                aOnSuccess(content);
             },aOnFailure));
         } catch (e) {
             Log.severe(e);

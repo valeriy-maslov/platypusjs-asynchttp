@@ -65,31 +65,47 @@ define([],function() {
         headers.forEach(function(item) {
             parsed.push({
                 name: item.getName(),
-                value: parseHeaderElements(item)
+                valueString: item.getValue(),
+                elements: parseHeaderElements(item)
             });
         });
         return parsed;
     }
     
     function parseHeaderElements(header) {
-        var headerElements = Java.from(header.getElements());
-        var elements = [];
-        headerElements.forEach(function(item) {
-            var element = [];
-            var parameters = Java.from(item.getParameters());
-            parameters.forEach(function(param) {
-                element.push({
-                    name: param.getName(),
-                    value: param.getValue()
+        var elements = Java.from(header.getElements());
+        var parsed = [];
+        elements.forEach(function(item) {
+            if (isHeaderElementHasSeparatedParameters(item)) {
+                parsed.push({
+                    name: item.getName(),
+                    valueString: item.getValue(),
+                    params: parseParametersInHeaderElement(item)
                 });
-            });
-            elements.push({
+            } else {
+                parsed.push({
+                    name: item.getName(),
+                    valueString: item.getValue()
+                });
+            }
+        });
+        return parsed;
+    }
+    
+    function isHeaderElementHasSeparatedParameters(element) {
+        return element.getParameterCount() > 0;
+    }
+    
+    function parseParametersInHeaderElement(element) {
+        var params = Java.from(element.getParameters());
+        var parsed = [];
+        params.forEach(function(item) {
+            parsed.push({
                 name: item.getName(),
-                value: element,
-                count: item.getParameterCount()
+                value: item.getValue()
             });
         });
-        return elements;
+        return parsed;
     }
     
     function getContent() {
