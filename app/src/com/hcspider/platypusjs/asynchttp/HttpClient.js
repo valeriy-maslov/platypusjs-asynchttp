@@ -1,27 +1,34 @@
 /**
  * 
  */
-define(['logger','./AsyncProcess'],function(Log,Async) {
-    var EntityUtils = Java.type('org.apache.http.util.EntityUtils');
+define(['logger'
+    ,'./AsyncProcess'
+    ,'./HttpResponse'
+],function(Log,Async,HttpResponse) {
     /**
      * Apache Async HTTP Client JavaScript Wrapper
      * @class
      * @param {type} client
      * @returns {undefined}
      */
-    var client;
     function HttpClient(aClient) {
-        client = aClient;
+        var javaClient = aClient;
+        
+        Object.defineProperty(this,'instance',{
+            get: function() {
+                return javaClient;
+            }
+        });
         
         Object.defineProperty(this,'start',{
             value: function() {
-                client.start();
+                this.instance.start();
             }
         });
         
         Object.defineProperty(this,'close',{
             value: function() {
-                client.close();
+                this.instance.close();
             }
         });
         
@@ -56,10 +63,12 @@ define(['logger','./AsyncProcess'],function(Log,Async) {
             aOnFailure = arguments[3];
         }
         try {
-            client.execute(aRequest.instance,Async.wrapCallbacks(function(result) {
-                var entity = result.getEntity();
-                var content = EntityUtils.toString(entity);
-                aOnSuccess(content);
+            this.instance.execute(aRequest.instance,Async.wrapCallbacks(function(result) {
+                var response = new HttpResponse(result);
+                aOnSuccess(response);
+//                var entity = result.getEntity();
+//                var content = EntityUtils.toString(entity);
+//                aOnSuccess(content);
             },aOnFailure));
         } catch (e) {
             Log.severe(e);

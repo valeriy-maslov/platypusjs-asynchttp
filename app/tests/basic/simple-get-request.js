@@ -3,7 +3,15 @@ define(['invoke','logger','../../src/com/hcspider/platypusjs/asynchttp/AsyncHTTP
         this.execute = function(onSuccess) {
             var request = HttpClient.get('http://localhost:8084/microservices/stub/application?__moduleName=StatelessTg&__methodName=numberTwo');
             HttpClient.execute(request,function(value) {
-                if (value == 2) {
+                var headers = value.allHeaders;
+                Log.info(typeof value);
+                Log.info( headers instanceof Array);
+                Log.info(JSON.stringify(value.protocolVersion));
+                Log.info(JSON.stringify(headers));
+                Log.info('Date: ' + value.containsHeader('Date'));
+                Log.info('Content-Length: ' + value.containsHeader('Content-Length'));
+                if (value.content == 2) {
+                    HttpClient.close();
                     Invoke.later(onSuccess);
                 }
             }, function(e) {
