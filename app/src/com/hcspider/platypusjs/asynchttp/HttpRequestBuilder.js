@@ -28,9 +28,15 @@ define(['./HttpRequest','./HttpResponse'],function(HttpRequest) {
         return request;
     }
     
+    function preparePostRequest(URI) {
+        var request = new HttpRequest('POST',URI);
+        return request;
+    }
+    
     module.prepareGetRequest = prepareGetRequest;
     module.prepareOptionsRequest = prepareOptionsRequest;
     module.prepareHeadRequest = prepareHeadRequest;
+    module.preparePostRequest = preparePostRequest;
     
     return module;
 });

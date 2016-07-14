@@ -1,7 +1,7 @@
 /**
  *
  */
-define([],function() {
+define(['./HttpEntity','./ContentType'],function(HttpEntity,ContentType) {
     var HttpGet = Java.type('org.apache.http.client.methods.HttpGet');
     var HttpHead = Java.type('org.apache.http.client.methods.HttpHead');
     var HttpOptions = Java.type('org.apache.http.client.methods.HttpOptions');
@@ -19,6 +19,17 @@ define([],function() {
                 return instance;
             }
         });
+        
+        Object.defineProperty(this,'setContent',{
+            value: function() {
+                setContent.apply(this,arguments);
+            }
+        });
+        
+        Object.defineProperty(this,'types',{
+            value: ContentType
+        });
+
     }
     
     function instantiateByMethod(method,URI) {
@@ -29,9 +40,15 @@ define([],function() {
                 return new HttpHead(URI);
             case 'GET':
                 return new HttpGet(URI);
+            case 'POST':
+                return new HttpPost(URI);
             default:
                 return null;
         }
+    }
+    
+    function setContent(type,content) {
+        
     }
     
     return HttpRequest;

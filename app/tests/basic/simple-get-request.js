@@ -10,7 +10,7 @@ define(['invoke','logger','../../src/com/hcspider/platypusjs/asynchttp/AsyncHTTP
                 Log.info(JSON.stringify(headers));
                 Log.info('Date: ' + value.containsHeader('Date'));
                 Log.info('Content-Length: ' + value.containsHeader('Content-Length'));
-                if (value.content == 2) {
+                if (value.getContent().toString() == 2) {
                     HttpClient.close();
                     Invoke.later(onSuccess);
                 }

@@ -1,11 +1,11 @@
 /**
  * 
  */
-define([],function() {
-    var EntityUtils = Java.type('org.apache.http.util.EntityUtils');
+define(['./HttpEntity'],function(HttpEntity) {
     
     function HttpResponse(response) {
         var javaResponse = response;
+        var entity = javaResponse ? new HttpEntity(javaResponse.getEntity()) : null;
         
         Object.defineProperty(this,'instance',{
             get: function() {
@@ -48,9 +48,15 @@ define([],function() {
             }
         });
         
-        Object.defineProperty(this,'content',{
-            get: function() {
-                return getContent.apply(this);
+        Object.defineProperty(this,'getContent',{
+            value: function() {
+                return entity;
+            }
+        });
+        
+        Object.defineProperty(this,'getContentLength',{
+            value: function() {
+                return entity.getContentLength();
             }
         });
     }
@@ -108,11 +114,11 @@ define([],function() {
         return parsed;
     }
     
-    function getContent() {
-        var entity = this.instance.getEntity();
-        var content = EntityUtils.toString(entity);
-        return content;
-    }
+//    function getContent() {
+//        var entity = this.instance.getEntity();
+//        var content = EntityUtils.toString(entity);
+//        return content;
+//    }
     
     return HttpResponse;
 });

@@ -24,6 +24,11 @@ define(['logger'
         return request;
     }
     
+    function post(URI) {
+        var request = RequestBuilder.preparePostRequest(URI);
+        return request;
+    }
+    
     function execute(request,onSuccess,onFailure) {
         if (!client) {
             client = ClientsBuilder.createDefault();
@@ -41,6 +46,7 @@ define(['logger'
     module.get = get;
     module.options = options;
     module.head = head;
+    module.post = post;
     module.close = close;
     module.execute = execute;
     
