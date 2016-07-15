@@ -13,6 +13,7 @@ define(['./HttpEntity','./ContentType'],function(HttpEntity,ContentType) {
     function HttpRequest(method,URI,options) {
         var self = this;
         var instance = instantiateByMethod(method,URI);
+        var charset = "UTF-8";
         
         Object.defineProperty(this,'instance',{
             get: function() {
@@ -21,8 +22,20 @@ define(['./HttpEntity','./ContentType'],function(HttpEntity,ContentType) {
         });
         
         Object.defineProperty(this,'setContent',{
-            value: function() {
-                setContent.apply(this,arguments);
+            value: function(type,content) {
+                var entity = new HttpEntity(type.withCharset(charset),content);
+                instance.setEntity(entity.instance);
+            }
+        });
+        
+        Object.defineProperty(this,'setCharset',{
+            value: function(value) {
+                charset = value;
+                var entity = instance.getEntity();
+                if (entity) {
+                    entity.setContentEncoding(charset);
+                    instance.setEntity(entity);
+                }
             }
         });
         
@@ -45,10 +58,6 @@ define(['./HttpEntity','./ContentType'],function(HttpEntity,ContentType) {
             default:
                 return null;
         }
-    }
-    
-    function setContent(type,content) {
-        
     }
     
     return HttpRequest;

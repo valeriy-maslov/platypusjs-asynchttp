@@ -9,9 +9,10 @@ define(['./ContentType'],function(ContentType) {
     function HttpEntity() {
         
         var instance;
+        var charset = "UTF-8";
         
         if (arguments.length === 2) {
-            var builder = EntityBuilder.create().setContentType(arguments[0]);
+            var builder = EntityBuilder.create().setContentType(arguments[0]).setContentEncoding(charset);
             switch(arguments[0]) {
                 
                 default:
@@ -25,6 +26,13 @@ define(['./ContentType'],function(ContentType) {
         Object.defineProperty(this,'instance',{
             get: function() {
                 return instance;
+            }
+        });
+        
+        Object.defineProperty(this,'setCharset',{
+            value: function(value) {
+                charset = value;
+                instance.setContentEncoding(charset);
             }
         });
         
