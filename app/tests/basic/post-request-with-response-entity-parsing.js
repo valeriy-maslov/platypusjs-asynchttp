@@ -15,9 +15,9 @@ define(['invoke','logger','../../src/com/hcspider/platypusjs/asynchttp/AsyncHTTP
                 __moduleName: 'StatelessTg',
                 __methodName: 'postRequest',
                 __type: 14,
-                param: [toCheck.SomeNum,toCheck.SomeString,toCheck.SomeDate,toCheck.SomeObj]
+                __param: [toCheck.SomeNum,toCheck.SomeString,toCheck.SomeDate,toCheck.SomeObj]
             };
-            var request = HttpClient.post('http://localhost:8084/microservices/stub/');
+            var request = HttpClient.post('http://localhost:8084/microservices/stub/application');
             request.setCharset("UTF-8");
             request.setContent(request.types.APPLICATION_FORM_URLENCODED,params);
             HttpClient.execute(request,function(response) {

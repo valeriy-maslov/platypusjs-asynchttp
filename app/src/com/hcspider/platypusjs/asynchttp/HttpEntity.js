@@ -4,7 +4,10 @@
 define(['./ContentType'],function(ContentType) {
     var EntityUtils = Java.type('org.apache.http.util.EntityUtils');
     var EntityBuilder = Java.type('org.apache.http.client.entity.EntityBuilder');
-    var URLEncoder = Java.type('org.apache.http.client.utils.URLEncodedUtils');
+    var URLEncodedFormEntity = Java.type('org.apache.http.client.entity.UrlEncodedFormEntity');
+    var BasicNameValuePair = Java.type('org.apache.http.message.BasicNameValuePair');
+    var BasicNameValuePairNativeArray = Java.type('org.apache.http.message.BasicNameValuePair[]');
+    var ArrayUtils = Java.type('java.util.Arrays');
     
     function HttpEntity() {
         
@@ -12,13 +15,20 @@ define(['./ContentType'],function(ContentType) {
         var charset = "UTF-8";
         
         if (arguments.length === 2) {
-            var builder = EntityBuilder.create().setContentType(arguments[0]).setContentEncoding(charset);
-            switch(arguments[0]) {
-                
+            
+            switch(arguments[0].getMimeType()) {
+                case ContentType.APPLICATION_FORM_URLENCODED.getMimeType():
+                    var content = buildListOfNameValuePairsFromJSON(arguments[1]);
+                    var contentAsNativeArray = Java.to(content,BasicNameValuePairNativeArray);
+                    var list = ArrayUtils.asList(contentAsNativeArray);
+                    instance = new URLEncodedFormEntity(list);
+                    break;
+                    
                 default:
+                    var builder = EntityBuilder.create().setContentType(arguments[0]).setContentEncoding(charset);
                     builder.setText(String(arguments[1]));
+                    instance = builder.build();
             }
-            instance = builder.build();
         } else if (arguments.length === 1) {
             instance = arguments[0];
         }
@@ -48,6 +58,22 @@ define(['./ContentType'],function(ContentType) {
             }
         });
 
+    }
+    
+    function buildListOfNameValuePairsFromJSON(content) {
+        var list = [];
+        for (var name in content) {
+            var value = content[name];
+            if (value instanceof Array) {
+                value.forEach(function(item) {
+                    list.push(new BasicNameValuePair(String(name+'[]'),String(item)));
+                });
+            } else {
+                list.push(new BasicNameValuePair(String(name),String(value)));
+            }
+        }
+        
+        return list;
     }
     
     return HttpEntity;
