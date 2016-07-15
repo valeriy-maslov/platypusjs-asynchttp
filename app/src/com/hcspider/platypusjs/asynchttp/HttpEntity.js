@@ -66,7 +66,7 @@ define(['./ContentType'],function(ContentType) {
             var value = content[name];
             if (value instanceof Array) {
                 value.forEach(function(item) {
-                    list.push(new BasicNameValuePair(String(name+'[]'),String(item)));
+                    list.push(new BasicNameValuePair(String(name+'[]'),JSON.stringify(item)));
                 });
             } else {
                 list.push(new BasicNameValuePair(String(name),String(value)));
