@@ -5,3 +5,4 @@ reports
 web
 private.properties
 war
+*.html
