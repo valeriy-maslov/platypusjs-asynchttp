@@ -1,5 +1,18 @@
 /**
- * 
+ *    Copyright 2016 Valeriy Maslov
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *  
  */
 define(['./ContentType'],function(ContentType) {
     var EntityUtils = Java.type('org.apache.http.util.EntityUtils');
@@ -8,6 +21,19 @@ define(['./ContentType'],function(ContentType) {
     var BasicNameValuePair = Java.type('org.apache.http.message.BasicNameValuePair');
     var BasicNameValuePairNativeArray = Java.type('org.apache.http.message.BasicNameValuePair[]');
     var ArrayUtils = Java.type('java.util.Arrays');
+    
+    /**
+     * Universal wrapper for Apache httpcore entities
+     * Used by requests and responses
+     * Instantiated automatically
+     * Constructor accepts 1 or 2 params
+     * In first case it is Java instance of org.apache.http.HttpEntity (builds automatically while response)
+     * Second case: first param is instance of org.apache.http.entity.ContentType
+     * second param is exact data which should be represented as HttpEntity
+     * 
+     * @class
+     * @returns {undefined}
+     */
     
     function HttpEntity() {
         
@@ -33,12 +59,19 @@ define(['./ContentType'],function(ContentType) {
             instance = arguments[0];
         }
         
+        /**
+         * Java instance of entity
+         */
         Object.defineProperty(this,'instance',{
             get: function() {
                 return instance;
             }
         });
         
+        /**
+         * Method which set encoding of entity content
+         * @param {String} value
+         */
         Object.defineProperty(this,'setCharset',{
             value: function(value) {
                 charset = value;
@@ -46,18 +79,31 @@ define(['./ContentType'],function(ContentType) {
             }
         });
         
+        /**
+         * Method returns content length in bytes
+         * @return {Number}
+         */
         Object.defineProperty(this,'getContentLength',{
             value: function() {
                 return instance.getContentLength();
             }
         });
         
+        /**
+         * Method returns parsed content
+         * If there is no parser for exact mime type - returns string representation of content
+         * @return {String}
+         */
         Object.defineProperty(this,'getContent',{
             value: function() {
                 return contentParser.apply(this);
             }
         });
         
+        /**
+         * Java-like method to make fast representation of entity as String
+         * return {String}
+         */
         Object.defineProperty(this,'toString',{
             value: function() {
                 return EntityUtils.toString(instance);
