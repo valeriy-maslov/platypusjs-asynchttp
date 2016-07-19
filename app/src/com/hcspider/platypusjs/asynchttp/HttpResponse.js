@@ -50,7 +50,7 @@ define(['./HttpEntity'],function(HttpEntity) {
         
         Object.defineProperty(this,'getContent',{
             value: function() {
-                return entity;
+                return entity.getContent();
             }
         });
         
@@ -113,12 +113,6 @@ define(['./HttpEntity'],function(HttpEntity) {
         });
         return parsed;
     }
-    
-//    function getContent() {
-//        var entity = this.instance.getEntity();
-//        var content = EntityUtils.toString(entity);
-//        return content;
-//    }
     
     return HttpResponse;
 });

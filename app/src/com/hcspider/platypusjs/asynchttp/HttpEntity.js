@@ -52,6 +52,12 @@ define(['./ContentType'],function(ContentType) {
             }
         });
         
+        Object.defineProperty(this,'getContent',{
+            value: function() {
+                return contentParser.apply(this);
+            }
+        });
+        
         Object.defineProperty(this,'toString',{
             value: function() {
                 return EntityUtils.toString(instance);
@@ -74,6 +80,25 @@ define(['./ContentType'],function(ContentType) {
         }
         
         return list;
+    }
+    
+    function contentParser() {
+        if (this.instance) {
+            var mimeType = this.instance.getContentType().getValue().split(";")[0].trim();
+            switch (mimeType) {
+                case ContentType.APPLICATION_JSON.getMimeType():
+                    var parsed = JSON.parse(EntityUtils.toString(this.instance), function(k,v) {
+                        if (typeof v === 'string' && /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z/.test(v)) {
+                                return new Date(v);
+                        } else {
+                                return v;
+                        }
+                    });
+                    return parsed;
+                default:
+                    return EntityUtils.toString(this.instance);
+            }
+        }
     }
     
     return HttpEntity;

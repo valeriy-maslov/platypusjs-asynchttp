@@ -1,6 +1,24 @@
 define(['invoke','logger','../../src/com/hcspider/platypusjs/asynchttp/AsyncHTTP'],function(Invoke,Log,HttpClient) {
     function PostRequestWithResponseEntityParsing() {
         
+        function checkResponseEntity(r,a) {
+            //Structure
+            if (!(a.SomeNum && a.SomeString && a.SomeDate && a.SomeObj && a.SomeObj.age && a.SomeObj.year)) {
+                return false;
+            } else {
+                //Values
+                if (a.SomeNum !== r.SomeNum && a.SomeString !== r.SomeString
+                        && a.SomeDate.getTime() !== r.SomeDate.getTime()
+                        && a.SomeObj.age !== r.SomeObj.age
+                        && a.SomeObj.year !== r.SomeObj.year) {
+                    return false;
+                }
+                 else {
+                     return true;
+                 }
+            }
+        }
+        
         this.execute = function(onSuccess) {
             var toCheck = {
                 SomeNum: 888,
@@ -26,7 +44,7 @@ define(['invoke','logger','../../src/com/hcspider/platypusjs/asynchttp/AsyncHTTP
                 if (response.statusCode === 200 && response.getContentLength() > 0) {
                     var responseContent = response.getContent();
                     Log.info(responseContent.toString());
-                    if (responseContent === toCheck) {
+                    if (checkResponseEntity(toCheck,responseContent)) {
                         HttpClient.close();
                         Invoke.later(onSuccess);
                     } else {
