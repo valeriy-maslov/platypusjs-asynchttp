@@ -65,6 +65,8 @@ And here is full source of this example:
     });
 ```
 
+Full support of Apache HttpAsyncClient planned in future. More information will be available later. Check for updates.
+
 
 ## License
 
