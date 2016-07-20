@@ -12,7 +12,7 @@ define(['invoke','logger','../../src/com/hcspider/platypusjs/asynchttp/AsyncHTTP
 //                    value: 1
 //                }
 //            });
-            var count = 100;
+            var count = 100000;
             var requests = [];
             
             //splitted on two fors to reduce preparing time
@@ -51,8 +51,10 @@ define(['invoke','logger','../../src/com/hcspider/platypusjs/asynchttp/AsyncHTTP
                     }
                     if (progress >= requests.length) {
                         var total = Math.abs(startTotal.getTime() - end.getTime());
+                        var sendTotal = Math.abs(startTotal.getTime() - sendEnd.getTime());
                         Log.info("\n Concurrent requests test completed!\n" +
                                 "Total time: " + total + "ms \n" + 
+                                "Sended complete for: " + sendTotal + "ms \n" +
                                 "Requests successfully completed: " + results.length);
                         HttpClient.close();
                         Invoke.later(onSuccess);
@@ -61,6 +63,7 @@ define(['invoke','logger','../../src/com/hcspider/platypusjs/asynchttp/AsyncHTTP
                     throw e;
                 });
             }
+            var sendEnd = new Date();
         };
     }
     
