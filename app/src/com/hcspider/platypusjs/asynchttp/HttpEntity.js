@@ -120,6 +120,8 @@ define(['./ContentType'],function(ContentType) {
                 value.forEach(function(item) {
                     list.push(new BasicNameValuePair(String(name+'[]'),JSON.stringify(item)));
                 });
+            } else if(typeof value === 'object') {
+                list.push(new BasicNameValuePair(String(name),JSON.stringify(value)));
             } else {
                 list.push(new BasicNameValuePair(String(name),String(value)));
             }
