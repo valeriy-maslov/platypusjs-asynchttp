@@ -23,17 +23,35 @@ define(['./HttpEntity','./ContentType'],function(HttpEntity,ContentType) {
     var HttpPut = Java.type('org.apache.http.client.methods.HttpPut');
     var HttpTrace = Java.type('org.apache.http.client.methods.HttpTrace');
     
+    /**
+     * HttpRequest is JS wrapper for Java classes which implement Apache httpcore requests
+     * 
+     * @class
+     * @param {String} method
+     * @param {String || java.net.URI} URI
+     * @param {JSON} options
+     */
     function HttpRequest(method,URI,options) {
         var self = this;
         var instance = instantiateByMethod(method,URI);
         var charset = "UTF-8";
         
+        /**
+         * Java instance of http request
+         */
         Object.defineProperty(this,'instance',{
             get: function() {
                 return instance;
             }
         });
         
+        /**
+         * Method allows to set entity content for this request
+         * Notice that new call of this method will rewrite existing entity
+         * 
+         * @param {ContentType} type
+         * @param {Object} content
+         */
         Object.defineProperty(this,'setContent',{
             value: function(type,content) {
                 var entity = new HttpEntity(type.withCharset(charset),content);
@@ -41,6 +59,11 @@ define(['./HttpEntity','./ContentType'],function(HttpEntity,ContentType) {
             }
         });
         
+        /**
+         * Method sets charset of current entity (actual for string-based mime types)
+         * 
+         * @param {String} charset
+         */
         Object.defineProperty(this,'setCharset',{
             value: function(value) {
                 charset = value;
@@ -52,6 +75,9 @@ define(['./HttpEntity','./ContentType'],function(HttpEntity,ContentType) {
             }
         });
         
+        /**
+         * Property which is encapsulate ContentType wrapper
+         */
         Object.defineProperty(this,'types',{
             value: ContentType
         });

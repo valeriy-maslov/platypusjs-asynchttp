@@ -31,24 +31,39 @@ define(['logger'
     function HttpClient(aClient) {
         var javaClient = aClient;
         
+        /**
+         * Java instance of http client
+         */
         Object.defineProperty(this,'instance',{
             get: function() {
                 return javaClient;
             }
         });
         
+        /**
+         * Method starts client
+         * @return {void}
+         */
         Object.defineProperty(this,'start',{
             value: function() {
                 this.instance.start();
             }
         });
         
+        /**
+         * Method closes client
+         * @return {void}
+         */
         Object.defineProperty(this,'close',{
             value: function() {
                 this.instance.close();
             }
         });
         
+        /**
+         * Method executes request
+         * For more info see the comments for executeRequest() below
+         */
         Object.defineProperty(this,'execute', {
             value: function() {
                 executeRequest.apply(this,arguments);
