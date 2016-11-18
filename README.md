@@ -1,6 +1,6 @@
-# AsyncHTTP for Platypus.js 
+# AsyncHTTP for Nashorn
 ### What is this?
-AsyncHTTP is JavaScript library for Platypus.js which provides fluent API for working with [Apache HttpAsyncClient] with JavaScript from Nashorn environment.
+AsyncHTTP is JavaScript library for Nashorn Script Engine which provides fluent API for working with [Apache HttpAsyncClient] with JavaScript from Nashorn environment.
 
 ## Please notice that product is currently on pre-alpha stage!
 
@@ -8,20 +8,20 @@ AsyncHTTP is JavaScript library for Platypus.js which provides fluent API for wo
 AsyncHTTP stable release will include same most used features as [Apache HttpAsyncClient] provides. More information will be available as soon as stable release will come.
 
 ## How to use?
-AsyncHTTP provides a few ways to work with Apache HttpAsyncClient in Nashorn environment. It's based on AMD specification. Actually it can be used in any Nashorn environment with AMD support, not only a Platypus.js.
-#### Installation on Platypus.js project
+AsyncHTTP provides a few ways to work with Apache HttpAsyncClient in Nashorn environment. It's based on AMD specification. Actually it can be used in any Nashorn environment with AMD support.
+#### Installation
 So, first of all you need proper installation on AsyncHTTP. 
 
-It requires [Apache HttpAsyncClient jars], unpack it into `/ext` folder which allocated in path where your Platypus.js Platform directory is.
+It requires [Apache HttpAsyncClient jars].
 At moment of development Apache HttpAsyncClient v.4.1 was used. There were not support tests for older versions.
 
-Next step is installing of Java layer of AsyncHTTP. There is [AsyncHTTP Java Layer] repository. Just put jar file from `/dist` into `/ext` folder where your Platypus.js Platform directory is.
+Next step is installing of Java layer of AsyncHTTP. There is [AsyncHTTP Java Layer] repository.
 
-Final step is installing AsyncHTTP, which is really easy. Just clone this repository and copy AsyncHTTP sources from `app/src/com/hcspider/platypusjs/asynchttp` into location where sources of your project is. After that you can simply use that like any other AMD module in Platypus.js.
+Final step is installing AsyncHTTP, which is really easy. Just clone this repository and copy AsyncHTTP sources from `app/src/com/hcspider/platypusjs/asynchttp` into location where sources of your project is. After that you can simply use that like any other AMD module.
 
 #### Quick Start
 
-AsyncHTTP has the module with fluent API, which allows to work with it very easy. In Platypus.js all you need is to include it in dependency array of `define()` in your sources, for example:
+AsyncHTTP has the module with fluent API, which allows to work with it very easy. In AMD all you need is to include it in dependency array of `define()` in your sources, for example:
 
 ```JavaScript
     define(['logger','asynchttp/AsyncHTTP'],function(Log,HttpClient) {
