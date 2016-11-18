@@ -24,6 +24,10 @@ define([],function() {
     var module = {};
     
     function wrapCallbacks(aOnSuccess, aOnFailure) {
+        var ctx = Scripts.getContext();
+        if (ctx) {
+            ctx.incAsyncsCount();
+        }
         return Callbacks.asCallback(Scripts.inContext(Callbacks.asConsumer(aOnSuccess,aOnFailure)));
     }
     
